@@ -18,6 +18,7 @@ public @interface ReactItemInfo {
     String[] description();
 
     Material material();
+    int amount() default 1;
     short data() default 0;
     // TODO add flags
     // TODO add unbreakable

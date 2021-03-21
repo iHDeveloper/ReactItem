@@ -4,3 +4,8 @@ author: iHDeveloper
 main: me.ihdeveloper.react.item.test.Main
 depend:
   - ReactItem
+
+commands:
+  test-give:
+    usage: /<command> <ID>
+    description: Used to test giving custom items
