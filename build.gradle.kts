@@ -4,7 +4,6 @@ import java.nio.charset.StandardCharsets
 
 plugins {
     java
-    kotlin("jvm") version "1.4.21"
     id ("de.undercouch.download") version "4.0.4"
     id ("com.github.johnrengelman.shadow") version "5.2.0"
 }
@@ -37,7 +36,6 @@ allprojects {
 
     if (project != rootProject) {
         apply(plugin = "java")
-        apply(plugin = "kotlin")
         apply(plugin = "de.undercouch.download")
         apply(plugin = "com.github.johnrengelman.shadow")
     }
@@ -48,14 +46,6 @@ allprojects {
     }
 
     dependencies {
-        val stdlib = kotlin("stdlib-jdk8")
-
-        if (project == rootProject) {
-            compileOnly(stdlib)
-        } else {
-            implementation(stdlib)
-        }
-
         // Include the server jar source
         if (buildTools.useLocalDependency) {
             compileOnly("org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT")
@@ -65,6 +55,10 @@ allprojects {
             } else if (buildTools.serverJar.exists()) {
                 compileOnly(files(buildTools.serverJar.absolutePath))
             }
+        }
+
+        if (project != rootProject) {
+            compileOnly(rootProject)
         }
 
         testCompileOnly("junit", "junit", "4.12")
@@ -111,7 +105,7 @@ allprojects {
 
                 // Copy generated plugin jar into server plugins folder
                 copy {
-                    from(File(project.buildDir, "libs"))
+                    from(file("${project.buildDir}/libs"))
                     into(server.plugins)
                 }
 
@@ -164,7 +158,7 @@ tasks {
         dependsOn("download-build-tools")
 
         onlyIf {
-            !buildTools.useLocalDependency && !buildTools.serverJar.exists() && !server.jar.exists()
+            !buildTools.useLocalDependency && !buildTools.serverJar.exists()
         }
 
         doLast {
@@ -188,7 +182,7 @@ tasks {
         dependsOn("run-build-tools")
 
         onlyIf {
-            !buildTools.useLocalDependency && !server.exists
+            !buildTools.useLocalDependency && (!server.exists || (server.exists && server.jar.exists()))
         }
 
         server.mkdir()
@@ -200,7 +194,9 @@ tasks {
             // Wait for 2 seconds to realise the message
             try {
                 Thread.sleep(2 * 1000)
-            } catch (e: Exception) {}
+            } catch (e: InterruptedException) {
+                logger.warn("Sleep has been interrupted!")
+            }
 
             // Since the process didn't stop
             // This means the user indicates to agree on the Minecraft EULA

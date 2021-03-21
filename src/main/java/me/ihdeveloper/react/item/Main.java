@@ -5,7 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 /**
  * The main class for plugin
  */
-public final class Main extends JavaPlugin {
+public final class Main extends JavaPlugin implements ReactItemAPI {
 
     @Override
     public void onEnable() {
