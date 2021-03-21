@@ -11,6 +11,8 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         getServer().getConsoleSender().sendMessage("§eReact Item §bTEST§e is§a enabled!");
 
+        reactItemAPI = (ReactItemAPI) getServer().getPluginManager().getPlugin("ReactItem");
+
         if (reactItemAPI != null) {
             getServer().getConsoleSender().sendMessage("§eReact Item §bTEST§f: §aAPI detected!");
         } else {

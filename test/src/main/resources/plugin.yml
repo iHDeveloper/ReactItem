@@ -2,3 +2,5 @@ name: ReactItem-Test
 version: 0.1
 author: iHDeveloper
 main: me.ihdeveloper.react.item.test.Main
+depend:
+  - ReactItem
