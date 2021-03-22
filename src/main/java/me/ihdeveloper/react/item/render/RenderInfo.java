@@ -1,11 +1,12 @@
 package me.ihdeveloper.react.item.render;
 
+import me.ihdeveloper.react.item.api.ReactItem;
 import org.bukkit.Material;
 
 /**
  * Represents information about an item to be rendered
  *
- * This is used to provide a stateful rendered when being passed into item instance aka {@link me.ihdeveloper.react.item.ReactItem}
+ * This is used to provide a stateful rendered when being passed into item instance aka {@link ReactItem}
  */
 public class RenderInfo {
     private String name;

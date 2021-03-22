@@ -1,7 +1,7 @@
 package me.ihdeveloper.react.item.test;
 
-import me.ihdeveloper.react.item.ReactItem;
-import me.ihdeveloper.react.item.ReactItemAPI;
+import me.ihdeveloper.react.item.api.ReactItem;
+import me.ihdeveloper.react.item.api.ReactItemAPI;
 import me.ihdeveloper.react.item.test.command.TestGiveCommand;
 import me.ihdeveloper.react.item.test.item.ForbiddenStick;
 import org.bukkit.plugin.java.JavaPlugin;

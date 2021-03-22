@@ -1,4 +1,4 @@
-package me.ihdeveloper.react.item;
+package me.ihdeveloper.react.item.api;
 
 import org.bukkit.inventory.ItemStack;
 

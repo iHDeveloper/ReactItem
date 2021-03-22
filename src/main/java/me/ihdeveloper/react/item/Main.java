@@ -1,8 +1,12 @@
 package me.ihdeveloper.react.item;
 
+import me.ihdeveloper.react.item.api.ReactItem;
+import me.ihdeveloper.react.item.api.ReactItemAPI;
+import me.ihdeveloper.react.item.api.ReactItemInfo;
 import me.ihdeveloper.react.item.reflect.ItemReflection;
 import me.ihdeveloper.react.item.reflect.NBTReflection;
 import me.ihdeveloper.react.item.render.RenderInfo;
+import me.ihdeveloper.react.item.state.NBTReactItemState;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -82,6 +86,10 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
         if (wrapper == null)
             throw new IllegalArgumentException("The given item instance information is not registered!");
 
+        NBTReactItemState state = new NBTReactItemState();
+
+        instance.onCreate(state);
+
         RenderInfo renderInfo = new RenderInfo();
         renderInfo.setName(itemInfo.name());
         renderInfo.setDescription(itemInfo.description());
@@ -89,7 +97,7 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
         renderInfo.setAmount(itemInfo.amount());
         renderInfo.setData(itemInfo.data());
 
-        instance.render(renderInfo);
+        instance.render(renderInfo, state);
 
         // TODO Inject the states in the tag compound (e.g. id, etc...)
 
@@ -101,11 +109,10 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
 
         Object nmsItem = ItemReflection.toNMS(itemStack);
 
-        Object nbt = NBTReflection.newInstance();
-        NBTReflection.setString(nbt, "id", itemInfo.id());
+        state.setString("id", itemInfo.id());
 
         Object tag = ItemReflection.getTag(nmsItem);
-        NBTReflection.set(tag, "ReactData", nbt);
+        NBTReflection.set(tag, "ReactData", state.getNBT());
 
         return ItemReflection.toCraftMirror(nmsItem);
     }

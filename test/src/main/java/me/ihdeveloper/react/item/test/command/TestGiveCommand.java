@@ -1,6 +1,6 @@
 package me.ihdeveloper.react.item.test.command;
 
-import me.ihdeveloper.react.item.ReactItemAPI;
+import me.ihdeveloper.react.item.api.ReactItemAPI;
 import me.ihdeveloper.react.item.test.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
