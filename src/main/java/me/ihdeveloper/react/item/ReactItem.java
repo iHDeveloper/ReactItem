@@ -11,9 +11,9 @@ public class ReactItem {
     /**
      * Used to change the render information depending on the item
      * 
-     * @param info The render informatin of the item before rendering
+     * @param renderInfo The render information of the item before rendering
      */
-    public void render(RenderInfo info) {
+    public void render(RenderInfo renderInfo) {
         // No need to change any render information since the item is stateless
     }
 

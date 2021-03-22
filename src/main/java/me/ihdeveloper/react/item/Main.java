@@ -1,5 +1,7 @@
 package me.ihdeveloper.react.item;
 
+import me.ihdeveloper.react.item.reflect.ItemReflection;
+import me.ihdeveloper.react.item.reflect.NBTReflection;
 import me.ihdeveloper.react.item.render.RenderInfo;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -97,7 +99,15 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
         itemMeta.setLore(Arrays.asList(renderInfo.getDescription()));
         itemStack.setItemMeta(itemMeta);
 
-        return itemStack;
+        Object nmsItem = ItemReflection.toNMS(itemStack);
+
+        Object nbt = NBTReflection.newInstance();
+        NBTReflection.setString(nbt, "id", itemInfo.id());
+
+        Object tag = ItemReflection.getTag(nmsItem);
+        NBTReflection.set(tag, "ReactData", nbt);
+
+        return ItemReflection.toCraftMirror(nmsItem);
     }
 
     @Override
