@@ -31,7 +31,8 @@ public class ForbiddenStick extends ReactItem {
         public void render(RenderInfo renderInfo, ReactItemState state) {
                 if (state.hasKey("hits")) {
                         short hits = state.getShort("hits");
-                        List<String> description = new ArrayList<>(Arrays.asList(renderInfo.getDescription()));
+                        List<String> description = new ArrayList<>();
+                        description.addAll(Arrays.asList(renderInfo.getDescription()));
                         description.add("§eHits: §f" + hits);
                         renderInfo.setDescription(description.toArray(new String[0]));
                 }

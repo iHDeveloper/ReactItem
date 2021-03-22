@@ -20,7 +20,7 @@ public @interface ReactItemInfo {
     Material material();
     int amount() default 1;
     short data() default 0;
+    boolean unbreakable() default false;
     // TODO add flags
-    // TODO add unbreakable
     // TODO add stackable
 }

@@ -96,6 +96,7 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
         renderInfo.setMaterial(itemInfo.material());
         renderInfo.setAmount(itemInfo.amount());
         renderInfo.setData(itemInfo.data());
+        renderInfo.setUnbreakable(itemInfo.unbreakable());
 
         instance.render(renderInfo, state);
 
@@ -105,6 +106,7 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(renderInfo.getName());
         itemMeta.setLore(Arrays.asList(renderInfo.getDescription()));
+        itemMeta.spigot().setUnbreakable(renderInfo.isUnbreakable());
         itemStack.setItemMeta(itemMeta);
 
         Object nmsItem = ItemReflection.toNMS(itemStack);

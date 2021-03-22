@@ -14,6 +14,7 @@ public class RenderInfo {
     private Material material;
     private int amount = 1;
     private short data = 0;
+    private boolean unbreakable = false;
 
     public void setName(String name) {
         this.name = name;
@@ -53,5 +54,13 @@ public class RenderInfo {
 
     public short getData() {
         return data;
+    }
+
+    public void setUnbreakable(boolean unbreakable) {
+        this.unbreakable = unbreakable;
+    }
+
+    public boolean isUnbreakable() {
+        return unbreakable;
     }
 }
