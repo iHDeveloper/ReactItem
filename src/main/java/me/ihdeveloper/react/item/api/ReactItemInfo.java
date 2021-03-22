@@ -1,6 +1,7 @@
 package me.ihdeveloper.react.item.api;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFlag;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -21,6 +22,6 @@ public @interface ReactItemInfo {
     int amount() default 1;
     short data() default 0;
     boolean unbreakable() default false;
-    // TODO add flags
+    ItemFlag[] flags() default { };
     // TODO add stackable
 }

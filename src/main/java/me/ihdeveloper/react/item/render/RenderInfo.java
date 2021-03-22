@@ -2,6 +2,7 @@ package me.ihdeveloper.react.item.render;
 
 import me.ihdeveloper.react.item.api.ReactItem;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFlag;
 
 /**
  * Represents information about an item to be rendered
@@ -15,6 +16,7 @@ public class RenderInfo {
     private int amount = 1;
     private short data = 0;
     private boolean unbreakable = false;
+    private ItemFlag[] flags = null;
 
     public void setName(String name) {
         this.name = name;
@@ -62,5 +64,13 @@ public class RenderInfo {
 
     public boolean isUnbreakable() {
         return unbreakable;
+    }
+
+    public void setFlags(ItemFlag[] flags) {
+        this.flags = flags;
+    }
+
+    public ItemFlag[] getFlags() {
+        return flags;
     }
 }

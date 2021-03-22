@@ -7,6 +7,7 @@ import me.ihdeveloper.react.item.reflect.ItemReflection;
 import me.ihdeveloper.react.item.reflect.NBTReflection;
 import me.ihdeveloper.react.item.render.RenderInfo;
 import me.ihdeveloper.react.item.state.NBTReactItemState;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -97,6 +98,7 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
         renderInfo.setAmount(itemInfo.amount());
         renderInfo.setData(itemInfo.data());
         renderInfo.setUnbreakable(itemInfo.unbreakable());
+        renderInfo.setFlags(itemInfo.flags());
 
         instance.render(renderInfo, state);
 
@@ -104,9 +106,12 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
 
         ItemStack itemStack = new ItemStack(renderInfo.getMaterial(), renderInfo.getAmount(), renderInfo.getData());
         ItemMeta itemMeta = itemStack.getItemMeta();
+
         itemMeta.setDisplayName(renderInfo.getName());
         itemMeta.setLore(Arrays.asList(renderInfo.getDescription()));
         itemMeta.spigot().setUnbreakable(renderInfo.isUnbreakable());
+        itemMeta.addItemFlags(renderInfo.getFlags());
+
         itemStack.setItemMeta(itemMeta);
 
         Object nmsItem = ItemReflection.toNMS(itemStack);
