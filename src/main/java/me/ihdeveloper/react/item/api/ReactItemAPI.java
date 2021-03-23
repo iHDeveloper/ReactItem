@@ -16,6 +16,14 @@ public interface ReactItemAPI {
     public void registerItem(ReactItem item);
 
     /**
+     * Returns the ID of the given item
+     *
+     * @param itemStack The item stack that holds the ID
+     * @return Null if the ID is not present at all (aka Vanilla Item).
+     */
+    public String loadItem(ItemStack itemStack);
+
+    /**
      * Returns information about the item from given ID
      *
      * @param id The id of the item

@@ -3,6 +3,14 @@ package me.ihdeveloper.react.item.api;
 public interface ReactItemState {
 
     /**
+     * Returns boolean value from given key
+     *
+     * @param key The name of the key
+     * @return The value of the given key
+     */
+    public boolean getBoolean(String key);
+
+    /**
      * Returns byte value from given key
      *
      * @param key The name of the key

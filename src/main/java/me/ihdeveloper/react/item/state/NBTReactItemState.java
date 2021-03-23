@@ -12,6 +12,11 @@ public class NBTReactItemState implements ReactItemState {
     }
 
     @Override
+    public boolean getBoolean(String key) {
+        return NBTReflection.getBoolean(nbt, key);
+    }
+
+    @Override
     public byte getByte(String key) {
         return NBTReflection.getByte(nbt, key);
     }

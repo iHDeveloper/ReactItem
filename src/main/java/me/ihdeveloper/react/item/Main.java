@@ -76,6 +76,33 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
     }
 
     @Override
+    public String loadItem(ItemStack itemStack) {
+
+        Object nmsItem = ItemReflection.toNMS(itemStack);
+        Object tagNBT = ItemReflection.getTag(nmsItem);
+        Object dataNBT = NBTReflection.get(tagNBT, "ReactData");
+
+        if (dataNBT == null)
+            return null;
+
+        String id = NBTReflection.getString(dataNBT, "id");
+
+        if (id == null)
+            return null;
+
+        if (!this.isItemInRegistry(id)) {
+            getServer().getConsoleSender().sendMessage("§eReact Item§f:§e Failed to load item with ID §7" + id + "§7(Not registered?)");
+            return null;
+        }
+
+        if (debug) {
+            getServer().getConsoleSender().sendMessage("§eReact Item(§6DEBUG§e)§f:§e Loading item §7" + this.registry.get(id).getInstance());
+        }
+
+        return id;
+    }
+
+    @Override
     public ReactItemInfo getItemInfo(String id) {
         ItemRegistryWrapper wrapper = this.registry.get(id);
 

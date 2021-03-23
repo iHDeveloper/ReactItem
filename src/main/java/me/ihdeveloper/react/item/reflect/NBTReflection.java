@@ -17,6 +17,16 @@ public final class NBTReflection {
         }
     }
 
+    public static Object get(Object nbt, String key) {
+        try {
+            Method nbt$get = Objects.requireNonNull(getNBTClass()).getMethod("get", String.class);
+            return nbt$get.invoke(nbt, key);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+
     public static boolean getBoolean(Object nbt, String key) {
         try {
             Method nbt$getBoolean = Objects.requireNonNull(getNBTClass()).getMethod("getBoolean", String.class);
