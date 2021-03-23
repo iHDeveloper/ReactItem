@@ -12,6 +12,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class JoinListener implements Listener {
 
+    private boolean autoReplaceUnknownItems = false;
+
+    public JoinListener(boolean autoReplaceUnknownItems) {
+        this.autoReplaceUnknownItems = autoReplaceUnknownItems;
+    }
+
     @EventHandler(priority = EventPriority.LOW)
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
@@ -30,7 +36,9 @@ public class JoinListener implements Listener {
                 continue;
             }
 
-            player.getInventory().setItem(index, Main.getInstance().createItem(UnknownItem.class));
+            if (autoReplaceUnknownItems) {
+                player.getInventory().setItem(index, Main.getInstance().createItem(UnknownItem.class));
+            }
         }
     }
 

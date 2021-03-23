@@ -57,7 +57,10 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
 
         if (getConfig().getBoolean("scan-inventory-on-join")) {
             getServer().getConsoleSender().sendMessage("§eReact Item:§7 Scan player inventory on join =>§a true");
-            getServer().getPluginManager().registerEvents(new JoinListener(), this);
+
+            boolean autoReplaceUnidentifiedItems = getConfig().getBoolean("auto-replace-unidentified-items");
+            getServer().getConsoleSender().sendMessage("§eReact Item:§7 Auto replace unidentified items =>§" + (autoReplaceUnidentifiedItems ? "a true" : "c false"));
+            getServer().getPluginManager().registerEvents(new JoinListener(autoReplaceUnidentifiedItems), this);
         }
 
         if (debug) {

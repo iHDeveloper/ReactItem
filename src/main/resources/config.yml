@@ -3,4 +3,8 @@
 debug: false
 
 # Scans the player inventory to identify any unknown item
+# Update items when identified
 scan-inventory-on-join: false
+
+# Replace unidentified items with unknown item (aka a useless item)
+auto-replace-unknown-items: false
