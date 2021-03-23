@@ -25,6 +25,10 @@ public class JoinListener implements Listener {
         for (int index = 0; index < 64; index++) {
             ItemStack itemStack = player.getInventory().getItem(index);
 
+            if (itemStack == null) {
+                return;
+            }
+
             if (itemStack.getType() == Material.AIR) {
                 continue;
             }
