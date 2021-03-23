@@ -68,7 +68,10 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
             getServer().getConsoleSender().sendMessage("§eWARNING§f: §cThis mode is not recommended for production environment!");
         }
 
-        registerItem(new UnknownItem());
+        if (getConfig().getBoolean("add-default-unknown-item")) {
+            getServer().getConsoleSender().sendMessage("§eReact Item:§7 Add default unknown item =>§a true");
+            registerItem(new UnknownItem());
+        }
 
         getServer().getConsoleSender().sendMessage("§eReact Item is§a enabled!");
     }

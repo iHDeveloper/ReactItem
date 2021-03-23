@@ -8,3 +8,7 @@ scan-inventory-on-join: false
 
 # Replace unidentified items with unknown item (aka a useless item)
 auto-replace-unknown-items: false
+
+# Add unknown item (aka id=@null)
+# Required when "auto-replace-unknown-items: true"
+add-default-unknown-item: true
