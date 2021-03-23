@@ -19,7 +19,6 @@ public @interface ReactItemInfo {
     String[] description();
 
     Material material();
-    int amount() default 1;
     short data() default 0;
     boolean unbreakable() default false;
     ItemFlag[] flags() default { };

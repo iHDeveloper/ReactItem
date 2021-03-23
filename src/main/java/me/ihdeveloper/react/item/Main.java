@@ -134,6 +134,11 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
 
     @Override
     public ItemStack createItem(Class<? extends ReactItem> item) {
+        return createItem(item, 1);
+    }
+
+    @Override
+    public ItemStack createItem(Class<? extends ReactItem> item, int amount) {
         ReactItemInfo itemInfo = item.getAnnotation(ReactItemInfo.class);
 
         if (itemInfo == null)
@@ -144,6 +149,11 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
 
     @Override
     public ItemStack createItem(String id) {
+        return createItem(id, 1);
+    }
+
+    @Override
+    public ItemStack createItem(String id, int amount) {
         ItemRegistryWrapper wrapper = this.registry.get(id);
 
         if (wrapper == null)
@@ -168,7 +178,6 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
         renderInfo.setName(itemInfo.name());
         renderInfo.setDescription(itemInfo.description());
         renderInfo.setMaterial(itemInfo.material());
-        renderInfo.setAmount(itemInfo.amount());
         renderInfo.setData(itemInfo.data());
         renderInfo.setUnbreakable(itemInfo.unbreakable());
         renderInfo.setFlags(itemInfo.flags());
@@ -179,7 +188,7 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
 
         instance.render(renderInfo, state);
 
-        ItemStack itemStack = new ItemStack(renderInfo.getMaterial(), renderInfo.getAmount(), renderInfo.getData());
+        ItemStack itemStack = new ItemStack(renderInfo.getMaterial(), amount, renderInfo.getData());
         ItemMeta itemMeta = itemStack.getItemMeta();
 
         itemMeta.setDisplayName(renderInfo.getName());

@@ -15,7 +15,6 @@ public class RenderInfo {
     private String name;
     private String[] description;
     private Material material;
-    private int amount = 1;
     private short data = 0;
     private boolean unbreakable = false;
     private ItemFlag[] flags = null;
@@ -42,14 +41,6 @@ public class RenderInfo {
 
     public Material getMaterial() {
         return material;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public int getAmount() {
-        return amount;
     }
 
     public void setData(short data) {
@@ -82,7 +73,6 @@ public class RenderInfo {
                 "name='" + name + '\'' +
                 ", description=" + Arrays.toString(description) +
                 ", material=" + material +
-                ", amount=" + amount +
                 ", data=" + data +
                 ", unbreakable=" + unbreakable +
                 ", flags=" + Arrays.toString(flags) +

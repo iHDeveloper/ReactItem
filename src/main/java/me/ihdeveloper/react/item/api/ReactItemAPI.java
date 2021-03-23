@@ -39,6 +39,23 @@ public interface ReactItemAPI {
     public boolean isItemInRegistry(String id);
 
     /**
+     * Generates an item stack from react item
+     * @param item The react item to generate the item stack from
+     *
+     * @return A generated item stack from react item
+     */
+    public ItemStack createItem(Class<? extends ReactItem> item);
+
+    /**
+     * Generates an item stack from react item
+     * @param item The react item to generate the item stack from
+     * @param amount The amount of the created item
+     *
+     * @return A generated item stack from react item
+     */
+    public ItemStack createItem(Class<? extends ReactItem> item, int amount);
+
+    /**
      * Generates an item stack from id
      * @param id The id of the react item
      *
@@ -47,11 +64,12 @@ public interface ReactItemAPI {
     public ItemStack createItem(String id);
 
     /**
-     * Generates an item stack from react item
-     * @param item The react item to generate the item stack from
+     * Generates an item stack from id
+     * @param id The id of the react item
+     * @param amount The amount of the created item
      *
-     * @return A generated item stack from react item
+     * @return The generated item stack from ID
      */
-    public ItemStack createItem(Class<? extends ReactItem> item);
+    public ItemStack createItem(String id, int amount);
 
 }
