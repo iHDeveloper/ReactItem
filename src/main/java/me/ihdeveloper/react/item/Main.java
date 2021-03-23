@@ -3,6 +3,7 @@ package me.ihdeveloper.react.item;
 import me.ihdeveloper.react.item.api.ReactItem;
 import me.ihdeveloper.react.item.api.ReactItemAPI;
 import me.ihdeveloper.react.item.api.ReactItemInfo;
+import me.ihdeveloper.react.item.listener.JoinListener;
 import me.ihdeveloper.react.item.reflect.ItemReflection;
 import me.ihdeveloper.react.item.reflect.NBTReflection;
 import me.ihdeveloper.react.item.render.RenderInfo;
@@ -38,20 +39,34 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
         }
     }
 
+    private static Main instance;
+
+    public static Main getInstance() {
+        return instance;
+    }
+
     private final Map<String, ItemRegistryWrapper> registry = new HashMap<>();
     private boolean debug = false;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        getServer().getConsoleSender().sendMessage("§eReact Item is§a enabled!");
 
         debug = getConfig().getBoolean("debug");
+
+        if (getConfig().getBoolean("scan-inventory-on-join")) {
+            getServer().getConsoleSender().sendMessage("§eReact Item:§7 Scan player inventory on join =>§a true");
+            getServer().getPluginManager().registerEvents(new JoinListener(), this);
+        }
 
         if (debug) {
             getServer().getConsoleSender().sendMessage("§eReact Item(§6DEBUG§e) mode is§a enabled");
             getServer().getConsoleSender().sendMessage("§eWARNING§f: §cThis mode is not recommended for production environment!");
         }
+
+        registerItem(new UnknownItem());
+
+        getServer().getConsoleSender().sendMessage("§eReact Item is§a enabled!");
     }
 
     @Override

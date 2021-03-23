@@ -20,8 +20,6 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        getServer().getConsoleSender().sendMessage("§eReact Item(§bTEST§e)§e is§a enabled!");
-
         reactItemAPI = (ReactItemAPI) getServer().getPluginManager().getPlugin("ReactItem");
 
         if (reactItemAPI != null) {
@@ -34,6 +32,8 @@ public class Main extends JavaPlugin {
         }
 
         getCommand("test-give").setExecutor(new TestGiveCommand());
+
+        getServer().getConsoleSender().sendMessage("§eReact Item(§bTEST§e)§e is§a enabled!");
     }
 
     @Override

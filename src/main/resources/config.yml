@@ -1,3 +1,6 @@
 # When it's enabled it logs information about what happens inside the API
 # Not recommended for production environment
 debug: false
+
+# Scans the player inventory to identify any unknown item
+scan-inventory-on-join: false
