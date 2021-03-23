@@ -3,6 +3,7 @@ package me.ihdeveloper.react.item;
 import me.ihdeveloper.react.item.api.ReactItem;
 import me.ihdeveloper.react.item.api.ReactItemAPI;
 import me.ihdeveloper.react.item.api.ReactItemInfo;
+import me.ihdeveloper.react.item.api.ReactItemState;
 import me.ihdeveloper.react.item.listener.JoinListener;
 import me.ihdeveloper.react.item.reflect.ItemReflection;
 import me.ihdeveloper.react.item.reflect.NBTReflection;
@@ -92,7 +93,6 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
 
     @Override
     public String loadItem(ItemStack itemStack) {
-
         Object nmsItem = ItemReflection.toNMS(itemStack);
         Object tagNBT = ItemReflection.getTag(nmsItem);
         Object dataNBT = NBTReflection.get(tagNBT, "ReactData");
@@ -130,6 +130,36 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
     @Override
     public boolean isItemInRegistry(String id) {
         return this.registry.containsKey(id);
+    }
+
+    @Override
+    public ItemStack updateItem(ItemStack itemStack) {
+        Object nmsItem = ItemReflection.toNMS(itemStack);
+        Object tagNBT = ItemReflection.getTag(nmsItem);
+        Object dataNBT = NBTReflection.get(tagNBT, "ReactData");
+
+        if (dataNBT == null)
+            return null;
+
+        String id = NBTReflection.getString(dataNBT, "id");
+
+        if (id == null)
+            return null;
+
+        if (!this.isItemInRegistry(id)) {
+            getServer().getConsoleSender().sendMessage("§eReact Item§f:§e Failed to update item with ID §7" + id + "§7(Not registered?)");
+            return null;
+        }
+
+        ItemRegistryWrapper wrapper = this.registry.get(id);
+
+        if (debug) {
+            getServer().getConsoleSender().sendMessage("§eReact Item(§6DEBUG§e)§f:§e Updating item §7" + wrapper.getInstance());
+        }
+
+        NBTReactItemState state = new NBTReactItemState(dataNBT);
+        RenderInfo renderInfo = renderItem(wrapper.getInstance(), wrapper.getInfo(), state);
+        return toBukkitItem(wrapper.getInfo(), state, renderInfo, itemStack.getAmount());
     }
 
     @Override
@@ -174,20 +204,33 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
             getServer().getConsoleSender().sendMessage("§eReact Item(§6DEBUG§e)§f: §eCreation State: §7" + state);
         }
 
+        RenderInfo renderInfo = renderItem(instance, itemInfo, state);
+        return toBukkitItem(itemInfo, state, renderInfo, amount);
+    }
+
+    @Override
+    public void onDisable() {
+        getServer().getConsoleSender().sendMessage("§eReact Item is§c disabled!");
+    }
+
+    private RenderInfo renderItem(ReactItem instance, ReactItemInfo info, ReactItemState state) {
         RenderInfo renderInfo = new RenderInfo();
-        renderInfo.setName(itemInfo.name());
-        renderInfo.setDescription(itemInfo.description());
-        renderInfo.setMaterial(itemInfo.material());
-        renderInfo.setData(itemInfo.data());
-        renderInfo.setUnbreakable(itemInfo.unbreakable());
-        renderInfo.setFlags(itemInfo.flags());
+        renderInfo.setName(info.name());
+        renderInfo.setDescription(info.description());
+        renderInfo.setMaterial(info.material());
+        renderInfo.setData(info.data());
+        renderInfo.setUnbreakable(info.unbreakable());
+        renderInfo.setFlags(info.flags());
 
         if (debug) {
             getServer().getConsoleSender().sendMessage("§eReact Item(§6DEBUG§e)§f: §eRender Info: §7" + renderInfo);
         }
 
         instance.render(renderInfo, state);
+        return renderInfo;
+    }
 
+    private ItemStack toBukkitItem(ReactItemInfo itemInfo, NBTReactItemState state, RenderInfo renderInfo, int amount) {
         ItemStack itemStack = new ItemStack(renderInfo.getMaterial(), amount, renderInfo.getData());
         ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -207,10 +250,4 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
 
         return ItemReflection.toCraftMirror(nmsItem);
     }
-
-    @Override
-    public void onDisable() {
-        getServer().getConsoleSender().sendMessage("§eReact Item is§c disabled!");
-    }
-
 }

@@ -5,10 +5,14 @@ import me.ihdeveloper.react.item.reflect.NBTReflection;
 
 public class NBTReactItemState implements ReactItemState {
 
-    private Object nbt;
+    private final Object nbt;
 
     public NBTReactItemState() {
-        this.nbt = NBTReflection.newInstance();
+        this(NBTReflection.newInstance());
+    }
+
+    public NBTReactItemState(Object nbt) {
+        this.nbt = nbt;
     }
 
     @Override

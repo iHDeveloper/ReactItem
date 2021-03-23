@@ -26,6 +26,7 @@ public class JoinListener implements Listener {
             String id = Main.getInstance().loadItem(itemStack);
 
             if (id != null) {
+                player.getInventory().setItem(index, Main.getInstance().updateItem(itemStack));
                 continue;
             }
 

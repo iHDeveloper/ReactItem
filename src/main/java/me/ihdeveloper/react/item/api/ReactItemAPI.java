@@ -39,6 +39,14 @@ public interface ReactItemAPI {
     public boolean isItemInRegistry(String id);
 
     /**
+     * Re-renders the given item information
+     *
+     * @param itemStack The item that needs to be re-rendered
+     * @return Null if the item information is unknown
+     */
+    public ItemStack updateItem(ItemStack itemStack);
+
+    /**
      * Generates an item stack from react item
      * @param item The react item to generate the item stack from
      *
