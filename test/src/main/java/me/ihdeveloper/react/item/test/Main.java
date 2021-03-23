@@ -20,17 +20,17 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        getServer().getConsoleSender().sendMessage("§eReact Item §bTEST§e is§a enabled!");
+        getServer().getConsoleSender().sendMessage("§eReact Item(§bTEST§e)§e is§a enabled!");
 
         reactItemAPI = (ReactItemAPI) getServer().getPluginManager().getPlugin("ReactItem");
 
         if (reactItemAPI != null) {
-            getServer().getConsoleSender().sendMessage("§eReact Item §bTEST§f: §aAPI detected!");
+            getServer().getConsoleSender().sendMessage("§eReact Item(§bTEST§e)§f: §aAPI detected!");
 
-            getServer().getConsoleSender().sendMessage("§eReact Item §bTEST§f:§e Registring items...");
+            getServer().getConsoleSender().sendMessage("§eReact Item(§bTEST§e)§f:§e Registring items...");
             registerItem(new ForbiddenStick());
         } else {
-            getServer().getConsoleSender().sendMessage("§eReact Item §bTEST§f: §cAPI not detected!");
+            getServer().getConsoleSender().sendMessage("§eReact Item(§bTEST§e)§f: §cAPI not detected!");
         }
 
         getCommand("test-give").setExecutor(new TestGiveCommand());
@@ -38,7 +38,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getServer().getConsoleSender().sendMessage("§eReact Item §bTEST§e is§c disabled!");
+        getServer().getConsoleSender().sendMessage("§eReact Item(§bTEST§e)§e is§c disabled!");
     }
 
     public ReactItemAPI getReactItemAPI() {
@@ -46,7 +46,7 @@ public class Main extends JavaPlugin {
     }
 
     private void registerItem(ReactItem item) {
-        getServer().getConsoleSender().sendMessage("§eReact Item §bTEST§f:§e Registering§7 " + item.getClass().getName() + "...");
+        getServer().getConsoleSender().sendMessage("§eReact Item(§bTEST§e)§f:§e Registering§7 " + item.getClass().getName() + "...");
         reactItemAPI.registerItem(item);
     }
 }

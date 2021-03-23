@@ -7,7 +7,6 @@ import me.ihdeveloper.react.item.reflect.ItemReflection;
 import me.ihdeveloper.react.item.reflect.NBTReflection;
 import me.ihdeveloper.react.item.render.RenderInfo;
 import me.ihdeveloper.react.item.state.NBTReactItemState;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,11 +38,20 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
         }
     }
 
-    private Map<String, ItemRegistryWrapper> registry = new HashMap<>();
+    private final Map<String, ItemRegistryWrapper> registry = new HashMap<>();
+    private boolean debug = false;
 
     @Override
     public void onEnable() {
-        getServer().getConsoleSender().sendMessage("§eReact Item§e is§a enabled!");
+        saveDefaultConfig();
+        getServer().getConsoleSender().sendMessage("§eReact Item is§a enabled!");
+
+        debug = getConfig().getBoolean("debug");
+
+        if (debug) {
+            getServer().getConsoleSender().sendMessage("§eReact Item(§6DEBUG§e) mode is§a enabled");
+            getServer().getConsoleSender().sendMessage("§eWARNING§f: §cThis mode is not recommended for production environment!");
+        }
     }
 
     @Override
@@ -61,6 +69,20 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
 
         ItemRegistryWrapper wrapper = new ItemRegistryWrapper(item, itemInfo);
         this.registry.put(id, wrapper);
+
+        if (debug) {
+            getServer().getConsoleSender().sendMessage("§eReact Item(§6DEBUG§e)§f:§e Registering item §7" + item);
+        }
+    }
+
+    @Override
+    public ReactItemInfo getItemInfo(String id) {
+        ItemRegistryWrapper wrapper = this.registry.get(id);
+
+        if (wrapper == null)
+            throw new IllegalArgumentException("Information of item (" + id + ") doesn't exist!");
+
+        return wrapper.getInfo();
     }
 
     @Override
@@ -81,15 +103,24 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
     @Override
     public ItemStack createItem(String id) {
         ItemRegistryWrapper wrapper = this.registry.get(id);
-        ReactItem instance = wrapper.getInstance();
-        ReactItemInfo itemInfo = wrapper.getInfo();
 
         if (wrapper == null)
             throw new IllegalArgumentException("The given item instance information is not registered!");
 
+        ReactItem instance = wrapper.getInstance();
+        ReactItemInfo itemInfo = wrapper.getInfo();
+
+        if (debug) {
+            getServer().getConsoleSender().sendMessage("§eReact Item(§6DEBUG§e)§f:§e Creating item §7" + instance);
+        }
+
         NBTReactItemState state = new NBTReactItemState();
 
         instance.onCreate(state);
+
+        if (debug) {
+            getServer().getConsoleSender().sendMessage("§eReact Item(§6DEBUG§e)§f: §eCreation State: §7" + state);
+        }
 
         RenderInfo renderInfo = new RenderInfo();
         renderInfo.setName(itemInfo.name());
@@ -100,9 +131,11 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
         renderInfo.setUnbreakable(itemInfo.unbreakable());
         renderInfo.setFlags(itemInfo.flags());
 
-        instance.render(renderInfo, state);
+        if (debug) {
+            getServer().getConsoleSender().sendMessage("§eReact Item(§6DEBUG§e)§f: §eRender Info: §7" + renderInfo);
+        }
 
-        // TODO Inject the states in the tag compound (e.g. id, etc...)
+        instance.render(renderInfo, state);
 
         ItemStack itemStack = new ItemStack(renderInfo.getMaterial(), renderInfo.getAmount(), renderInfo.getData());
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -126,7 +159,7 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
 
     @Override
     public void onDisable() {
-        getServer().getConsoleSender().sendMessage("§eReact Item§e is§c disabled!");
+        getServer().getConsoleSender().sendMessage("§eReact Item is§c disabled!");
     }
 
 }

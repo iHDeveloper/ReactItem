@@ -30,8 +30,12 @@ public abstract class ReactItem {
 
     @Override
     public String toString() {
-        // TODO Show information based on the item info
-        return "§7Unknown Item";
+        ReactItemInfo info = this.getClass().getAnnotation(ReactItemInfo.class);
+        if (info != null) {
+            return "ReactItem{id=" + info.id() + ", name=" + info.name() + "}";
+        }
+
+        return "§7Unknown Item (aka doesn't have any information)";
     }
 
 }

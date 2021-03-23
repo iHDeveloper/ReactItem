@@ -1,0 +1,3 @@
+# When it's enabled it logs information about what happens inside the API
+# Not recommended for production environment
+debug: false

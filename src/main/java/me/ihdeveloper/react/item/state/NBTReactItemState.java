@@ -114,4 +114,11 @@ public class NBTReactItemState implements ReactItemState {
     public Object getNBT() {
         return nbt;
     }
+
+    @Override
+    public String toString() {
+        return "NBTReactItemState{" +
+                "nbt=" + nbt +
+                '}';
+    }
 }

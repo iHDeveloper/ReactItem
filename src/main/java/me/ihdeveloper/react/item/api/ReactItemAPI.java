@@ -16,6 +16,13 @@ public interface ReactItemAPI {
     public void registerItem(ReactItem item);
 
     /**
+     * Returns information about the item from given ID
+     *
+     * @param id The id of the item
+     */
+    public ReactItemInfo getItemInfo(String id);
+
+    /**
      * Checks if the item ID is in the registry or not.
      *
      * @param id The ID of the item

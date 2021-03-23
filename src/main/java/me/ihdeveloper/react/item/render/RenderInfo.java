@@ -4,6 +4,8 @@ import me.ihdeveloper.react.item.api.ReactItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 
+import java.util.Arrays;
+
 /**
  * Represents information about an item to be rendered
  *
@@ -72,5 +74,18 @@ public class RenderInfo {
 
     public ItemFlag[] getFlags() {
         return flags;
+    }
+
+    @Override
+    public String toString() {
+        return "RenderInfo{" +
+                "name='" + name + '\'' +
+                ", description=" + Arrays.toString(description) +
+                ", material=" + material +
+                ", amount=" + amount +
+                ", data=" + data +
+                ", unbreakable=" + unbreakable +
+                ", flags=" + Arrays.toString(flags) +
+                '}';
     }
 }
