@@ -22,11 +22,11 @@ public class JoinListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        for (int index = 0; index < 64; index++) {
+        for (int index = 0; index < player.getInventory().getSize(); index++) {
             ItemStack itemStack = player.getInventory().getItem(index);
 
             if (itemStack == null) {
-                return;
+                continue;
             }
 
             if (itemStack.getType() == Material.AIR) {

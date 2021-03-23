@@ -32,7 +32,7 @@ public abstract class ReactItem {
     public String toString() {
         ReactItemInfo info = this.getClass().getAnnotation(ReactItemInfo.class);
         if (info != null) {
-            return "ReactItem{id=" + info.id() + ", name=" + info.name() + "}";
+            return "ReactItem{id=" + info.id() + ", name=" + info.name() + ", stackable=" + info.stackable() + "}";
         }
 
         return "§7Unknown Item (aka doesn't have any information)";

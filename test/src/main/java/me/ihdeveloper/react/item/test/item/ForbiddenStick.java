@@ -18,7 +18,8 @@ import java.util.List;
                 "§7apply the forbidden magic",
                 "§7"
         },
-        material = Material.STICK
+        material = Material.STICK,
+        stackable = false
 )
 public class ForbiddenStick extends ReactItem {
 

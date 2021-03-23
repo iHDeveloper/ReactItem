@@ -4,6 +4,7 @@ import me.ihdeveloper.react.item.api.ReactItem;
 import me.ihdeveloper.react.item.api.ReactItemAPI;
 import me.ihdeveloper.react.item.api.ReactItemInfo;
 import me.ihdeveloper.react.item.api.ReactItemState;
+import me.ihdeveloper.react.item.listener.InventoryListener;
 import me.ihdeveloper.react.item.listener.JoinListener;
 import me.ihdeveloper.react.item.reflect.ItemReflection;
 import me.ihdeveloper.react.item.reflect.NBTReflection;
@@ -51,6 +52,8 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
 
     @Override
     public void onEnable() {
+        instance = this;
+
         saveDefaultConfig();
 
         debug = getConfig().getBoolean("debug");
@@ -58,15 +61,17 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
         if (getConfig().getBoolean("scan-inventory-on-join")) {
             getServer().getConsoleSender().sendMessage("§eReact Item:§7 Scan player inventory on join =>§a true");
 
-            boolean autoReplaceUnidentifiedItems = getConfig().getBoolean("auto-replace-unidentified-items");
-            getServer().getConsoleSender().sendMessage("§eReact Item:§7 Auto replace unidentified items =>§" + (autoReplaceUnidentifiedItems ? "a true" : "c false"));
-            getServer().getPluginManager().registerEvents(new JoinListener(autoReplaceUnidentifiedItems), this);
+            boolean autoReplaceUnknownItems = getConfig().getBoolean("auto-replace-unknown-items");
+            getServer().getConsoleSender().sendMessage("§eReact Item:§7 Auto replace unknown items =>§" + (autoReplaceUnknownItems ? "a true" : "c false"));
+            getServer().getPluginManager().registerEvents(new JoinListener(autoReplaceUnknownItems), this);
         }
 
         if (debug) {
             getServer().getConsoleSender().sendMessage("§eReact Item(§6DEBUG§e) mode is§a enabled");
             getServer().getConsoleSender().sendMessage("§eWARNING§f: §cThis mode is not recommended for production environment!");
         }
+
+        getServer().getPluginManager().registerEvents(new InventoryListener(), this);
 
         if (getConfig().getBoolean("add-default-unknown-item")) {
             getServer().getConsoleSender().sendMessage("§eReact Item:§7 Add default unknown item =>§a true");
@@ -99,8 +104,15 @@ public final class Main extends JavaPlugin implements ReactItemAPI {
 
     @Override
     public String loadItem(ItemStack itemStack) {
+        if (itemStack == null)
+            return null;
+
         Object nmsItem = ItemReflection.toNMS(itemStack);
         Object tagNBT = ItemReflection.getTag(nmsItem);
+
+        if (tagNBT == null)
+            return null;
+
         Object dataNBT = NBTReflection.get(tagNBT, "ReactData");
 
         if (dataNBT == null)
