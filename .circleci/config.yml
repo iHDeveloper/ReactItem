@@ -87,7 +87,7 @@ jobs:
           at: "./.workspace"
       - run:
           name: "Lists the build artifacts and version"
-          command: " echo Build Artifacts && ls -al .workspace/build-artifacts && echo && echo Version $(cat .workspace/temp/version.txt)"
+          command: "echo Build Artifacts && ls -al .workspace/build-artifacts && echo && echo Version $(cat .workspace/temp/version.txt)"
 
   publish-release:
     docker:
@@ -105,8 +105,16 @@ jobs:
           command: "export VERSION=v$(cat .workspace/temp/version.txt)"
 
       - run:
+          name: "Log attached workspace"
+          command: "echo Attached Workspace && ls -al .workspace && echo && ls -al .workspace/build-artifacts && echo && ls -al .workspace/temp"
+
+      - run:
+          name: "Log environment variables"
+          command: "echo Username: ${CIRCLE_PROJECT_USERNAME} && echo Repository Name: ${CIRCLE_PROJECT_REPONAME} && echo Commit Hash: ${CIRCLE_SHA1} && echo Version: v$(cat .workspace/temp/version.txt)"
+
+      - run:
           name: "Publish Release on GitHub"
-          command: "ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} .workspace/build-artifacts"
+          command: "ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete v$(cat .workspace/temp/version.txt) .workspace/build-artifacts"
 
       - discord/status:
           fail_only: false
