@@ -11,14 +11,16 @@ And, even prevent the vanilla items to avoid unexpected behaviours.
 
 **Note:** This library has been tested on `1.8.x`
 
-# Hot list
+[Spigot](https://www.spigotmc.org/resources/lib-react-gui.91047/) - [JitPack](https://jitpack.io/#iHDeveloper/ReactItem/v0.8)
+
+## Hot list
 A cooler name for TODO list.
 - [ ] Detect changes in the state container
 - [ ] Events to trigger changes to the item
 - [ ] Java Agent to insert hooks in the `CraftInventory`
 - [ ] Fix unstackable items problem
 
-# Getting Started
+## Getting Started
 ```java
 class ExamplePlugin extends JavaPlugin {
     private ReactItemAPI reactItemAPI;
@@ -28,3 +30,7 @@ class ExamplePlugin extends JavaPlugin {
     }
 }
 ```
+
+## Examples
+- [Forbidden Stick](https://github.com/iHDeveloper/ReactItem/blob/master/test/src/main/java/me/ihdeveloper/react/item/test/item/ForbiddenStick.java)
+
