@@ -1,4 +1,5 @@
 # React Item `0.8`
+[![](https://jitpack.io/v/iHDeveloper/ReactItem.svg)](https://jitpack.io/#iHDeveloper/ReactItem)
 Spigot library to provide developers the ability to create custom items in Minecraft.
 
 It customizes the items in Minecraft. By injecting states into the items tag.
